@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChangeCameraScript : MonoBehaviour
+public class CameraChangeScript : MonoBehaviour
 {
 
     public GameObject NormalCam;
@@ -13,36 +13,36 @@ public class ChangeCameraScript : MonoBehaviour
     IEnumerator changeCamMode()
     {
         yield return new WaitForSeconds(0.01f);
-        if (CamMode == 0)
+        switch(CamMode)
         {
-            NormalCam.SetActive(true);
-            FPCam.SetActive(false);
+        	case 0:
+	        	NormalCam.SetActive(true);
+	            FPCam.SetActive(false);	
+	            break;
+	        case 1:
+	        	FarCam.SetActive(true);
+            	NormalCam.SetActive(false);
+            	break;
+	        case 2:
+	        	FPCam.SetActive(true);
+            	FarCam.SetActive(false);	    
+            	break;
         }
-        if (CamMode == 1)
-        {
-            FarCam.SetActive(true);
-            NormalCam.SetActive(false);
-        }
-        if (CamMode == 2)
-        {
-            FPCam.SetActive(true);
-            FarCam.SetActive(false);
-        }
-
     }
 
     void Update()
     {
         if (Input.GetButtonDown("Viewmode"))
         {
-            if (CamMode == 2)
-            {
-                CamMode = 0;
-            }
-            else
-            {
-                CamMode = CamMode + 1;
-            }
+        	switch(CamMode)
+        	{
+        		case 2:
+        			CamMode = 0;
+        			break;
+        		default:
+        			CamMode = CamMode + 1;
+        			break;
+        	}
             StartCoroutine(changeCamMode());
         }
     }
